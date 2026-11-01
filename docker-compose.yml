@@ -1,0 +1,21 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    container_name: bookfinder-postgres-clean
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: bookfinder_app
+      POSTGRES_PASSWORD: bf_local_2026
+      POSTGRES_DB: bookfinder_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - bookfinder_pgdata_clean:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bookfinder_app -d bookfinder_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  bookfinder_pgdata_clean:

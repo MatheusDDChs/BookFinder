@@ -6,6 +6,7 @@ node_modules/
 .pnp/
 .pnp.*
 node_modules
+.bin/
 
 # ==========================================
 # Environment variables and secrets
