@@ -1,11 +1,22 @@
-import { useMemo, useState } from "react";
-import { Bell, BookOpen, SlidersHorizontal, Trash2 } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { AppLayout } from "../components/layout/applayout.tsx";
-import { PageTitle } from "../components/layout/pagetitle.tsx";
-import { BookGrid } from "../components/books/bookgrid.tsx";
-import { mainNav } from "../config/navigation.tsx";
+import { useMemo, useState } from "react"; //mantem
+import { Bell, BookOpen, SlidersHorizontal, Trash2 } from "lucide-react"; //mantem
+import { Button } from "../components/ui/button"; //mantem
+import { AppLayout } from "../components/layout/applayout.tsx"; //mantem
+import { PageTitle } from "../components/layout/pagetitle.tsx"; //mantem
+import { BookGrid } from "../components/books/bookgrid.tsx"; //mantem
+import { SidebarFilters } from "@/components/layout/sidebarfilter.tsx";
 import type { Book } from "../types/book.ts";
+import {
+  defaultFilters,
+  defaultSort,
+  filterGroups,
+  filtersTitle,
+  libraryNav,
+  librarySidebarTitle,
+  sortLabel,
+  sortOptions,
+  type FilterValues,
+} from "@/config/navigation";
 
 const books: Book[] = [
   {
@@ -52,18 +63,11 @@ const books: Book[] = [
   },
 ];
 
-const Logo = (
-  <div className="flex items-center gap-2 text-2xl font-semibold text-primary">
-    <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
-      B
-    </span>
-    Bookworm
-  </div>
-);
-
 export default function LibraryPage() {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [filters, setFilters] = useState<FilterValues>(defaultFilters);
+  const [sort, setSort] = useState(defaultSort);
 
   const visible = useMemo(
     () =>
@@ -81,13 +85,35 @@ export default function LibraryPage() {
       return next;
     });
 
+  const changeFilter = (groupId: string, value: string, checked: boolean) =>
+    setFilters((prev) => {
+      const current = prev[groupId] ?? [];
+      return {
+        ...prev,
+        [groupId]: checked
+          ? [...current, value]
+          : current.filter((v) => v !== value),
+      };
+    });
+
   return (
     <AppLayout
       sidebar={{
-        logo: Logo,
-        items: mainNav,
+        title: librarySidebarTitle,
+        items: libraryNav,
         activeHref: "/library",
-        user: { name: "Gerald Nwodo", email: "gerald.design.dev@gmail.com" },
+        children: (
+          <SidebarFilters
+            title={filtersTitle}
+            groups={filterGroups}
+            values={filters}
+            onChange={changeFilter}
+            sortLabel={sortLabel}
+            sortOptions={sortOptions}
+            sortValue={sort}
+            onSortChange={setSort}
+          />
+        ),
       }}
       header={{
         search: { value: query, onChange: setQuery },

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils";
 import type { NavItem } from "@/config/navigation";
 
 export interface SidebarUser {
@@ -11,7 +11,9 @@ export interface SidebarUser {
 }
 
 interface SidebarProps {
-  logo: React.ReactNode;
+  logo?: React.ReactNode;
+  title?: string; // alternativa ao logo (ex.: "Biblioteca")
+  children?: React.ReactNode; // slot abaixo da navegação (ex.: filtros)
   items: NavItem[];
   activeHref: string;
   user?: SidebarUser;
@@ -21,6 +23,8 @@ interface SidebarProps {
 
 export function Sidebar({
   logo,
+  title,
+  children,
   items,
   activeHref,
   user,
@@ -29,9 +33,16 @@ export function Sidebar({
 }: SidebarProps) {
   return (
     <aside
-      className={cn("flex w-sidebar shrink-0 flex-col bg-surface", className)}
+      className={cn(
+        "flex m-4 w-sidebar shrink-0 flex-col bg-surface",
+        className,
+      )}
     >
-      <div className="flex h-header items-center px-6">{logo}</div>
+      {(logo || title) && (
+        <div className="flex h-header items-center px-6">
+          {logo ?? <h2 className="text-2xl font-semibold">{title}</h2>}
+        </div>
+      )}
 
       <nav className="flex-1 space-y-1 px-3 py-2">
         {items.map((item) => (
@@ -43,6 +54,8 @@ export function Sidebar({
           />
         ))}
       </nav>
+
+      {children}
 
       {user && <SidebarProfile user={user} />}
     </aside>

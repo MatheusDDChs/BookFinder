@@ -32,7 +32,7 @@ export function Header({
   return (
     <header
       className={cn(
-        "flex h-header items-center gap-4 border-b bg-surface px-8",
+        "flex h-header m-4 items-center gap-4 border-b bg-surface px-8",
         className,
       )}
     >
