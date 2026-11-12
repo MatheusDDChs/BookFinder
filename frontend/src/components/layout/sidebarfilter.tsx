@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
@@ -24,6 +25,7 @@ interface SidebarFiltersProps {
 }
 
 export function SidebarFilters(p: SidebarFiltersProps) {
+  const uid = useId();
   return (
     <div className="space-y-6 px-4 py-4">
       <h3 className="text-sm font-medium text-muted-foreground">{p.title}</h3>
@@ -32,7 +34,7 @@ export function SidebarFilters(p: SidebarFiltersProps) {
         <fieldset key={group.id} className="space-y-3">
           <legend className="mb-3 text-sm font-medium">{group.label}</legend>
           {group.options.map((opt) => {
-            const id = `${group.id}-${opt.value}`;
+            const id = `${uid}-${group.id}-${opt.value}`;
             return (
               <div key={id} className="flex items-center gap-2">
                 <Checkbox

@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import type { LibraryCategory } from "@/types/book";
 import {
   BookOpen,
   CircleHelp,
@@ -20,6 +21,11 @@ export interface NavItem {
   children?: { label: string; href: string }[];
 }
 
+export interface LibraryNavItem extends NavItem {
+  href: string;
+  category: LibraryCategory; // liga o item à página e aos dados
+}
+
 export interface FilterOption {
   value: string;
   label: string;
@@ -34,12 +40,32 @@ export type FilterValues = Record<string, string[]>;
 /* ---------- Sidebar "Biblioteca" ---------- */
 export const librarySidebarTitle = "Biblioteca";
 
-export const libraryNav: NavItem[] = [
-  { label: "Todos", icon: LayoutGrid, href: "/library" },
-  { label: "Backend", icon: Server, href: "/library/backend" },
-  { label: "Frontend", icon: Monitor, href: "/library/frontend" },
-  { label: "Banco de dados", icon: Database, href: "/library/banco-de-dados" },
-  { label: "DevOps", icon: InfinityIcon, href: "/library/devops" },
+export const libraryNav: LibraryNavItem[] = [
+  { label: "Todos", icon: LayoutGrid, href: "/library", category: "all" },
+  {
+    label: "Backend",
+    icon: Server,
+    href: "/library/backend",
+    category: "backend",
+  },
+  {
+    label: "Frontend",
+    icon: Monitor,
+    href: "/library/frontend",
+    category: "frontend",
+  },
+  {
+    label: "Banco de dados",
+    icon: Database,
+    href: "/library/banco-de-dados",
+    category: "banco-de-dados",
+  },
+  {
+    label: "DevOps",
+    icon: InfinityIcon,
+    href: "/library/devops",
+    category: "devops",
+  },
 ];
 
 export const filtersTitle = "Filtros";

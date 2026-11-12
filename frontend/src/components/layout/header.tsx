@@ -1,8 +1,8 @@
 import type { LucideIcon } from "lucide-react";
-import { Search } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils";
 
 export interface HeaderAction {
   id: string;
@@ -20,6 +20,7 @@ interface HeaderProps {
   };
   filter?: React.ReactNode; // ex.: botão que abre um Popover/Sheet de filtros
   actions?: HeaderAction[];
+  onMenuClick?: () => void; // botão de menu (visível só abaixo de lg)
   className?: string;
 }
 
@@ -27,17 +28,30 @@ export function Header({
   search,
   filter,
   actions = [],
+  onMenuClick,
   className,
 }: HeaderProps) {
   return (
     <header
       className={cn(
-        "flex h-header m-4 items-center gap-4 border-b bg-surface px-8",
+        "flex h-header items-center gap-2 border-b bg-surface px-4 sm:gap-4 sm:px-8",
         className,
       )}
     >
+      {onMenuClick && (
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Abrir menu"
+          onClick={onMenuClick}
+          className="shrink-0 lg:hidden"
+        >
+          <Menu className="size-5" />
+        </Button>
+      )}
+
       {search && (
-        <div className="relative max-w-3xl flex-1">
+        <div className="relative min-w-0 max-w-3xl flex-1">
           <Search className="absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={search.value}

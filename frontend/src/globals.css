@@ -1,6 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap");
 @import "tailwindcss";
 
+.dark {
+  --background: 120 10% 7%;
+  --surface: 120 8% 10%;
+  --shelf: 120 8% 14%;
+  --foreground: 0 0% 95%;
+  --muted-foreground: 220 9% 65%;
+  --border: 120 6% 20%;
+  --accent: 120 20% 16%;
+  --accent-foreground: 120 50% 60%;
+}
+
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
